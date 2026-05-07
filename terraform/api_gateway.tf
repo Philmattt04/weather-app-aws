@@ -96,10 +96,10 @@ resource "aws_api_gateway_method" "records_options" {
   authorization = "NONE"
 }
 resource "aws_api_gateway_integration" "records_options" {
-  rest_api_id = aws_api_gateway_rest_api.main.id
-  resource_id = aws_api_gateway_resource.records.id
-  http_method = aws_api_gateway_method.records_options.http_method
-  type        = "MOCK"
+  rest_api_id       = aws_api_gateway_rest_api.main.id
+  resource_id       = aws_api_gateway_resource.records.id
+  http_method       = aws_api_gateway_method.records_options.http_method
+  type              = "MOCK"
   request_templates = { "application/json" = "{\"statusCode\": 200}" }
 }
 resource "aws_api_gateway_method_response" "records_options_200" {
@@ -142,10 +142,10 @@ resource "aws_api_gateway_method" "export_options" {
   authorization = "NONE"
 }
 resource "aws_api_gateway_integration" "export_options" {
-  rest_api_id = aws_api_gateway_rest_api.main.id
-  resource_id = aws_api_gateway_resource.records_export.id
-  http_method = aws_api_gateway_method.export_options.http_method
-  type        = "MOCK"
+  rest_api_id       = aws_api_gateway_rest_api.main.id
+  resource_id       = aws_api_gateway_resource.records_export.id
+  http_method       = aws_api_gateway_method.export_options.http_method
+  type              = "MOCK"
   request_templates = { "application/json" = "{\"statusCode\": 200}" }
 }
 resource "aws_api_gateway_method_response" "export_options_200" {
@@ -218,10 +218,10 @@ resource "aws_api_gateway_method" "record_options" {
   authorization = "NONE"
 }
 resource "aws_api_gateway_integration" "record_options" {
-  rest_api_id = aws_api_gateway_rest_api.main.id
-  resource_id = aws_api_gateway_resource.records_id.id
-  http_method = aws_api_gateway_method.record_options.http_method
-  type        = "MOCK"
+  rest_api_id       = aws_api_gateway_rest_api.main.id
+  resource_id       = aws_api_gateway_resource.records_id.id
+  http_method       = aws_api_gateway_method.record_options.http_method
+  type              = "MOCK"
   request_templates = { "application/json" = "{\"statusCode\": 200}" }
 }
 resource "aws_api_gateway_method_response" "record_options_200" {
@@ -264,10 +264,10 @@ resource "aws_api_gateway_method" "ai_options" {
   authorization = "NONE"
 }
 resource "aws_api_gateway_integration" "ai_options" {
-  rest_api_id = aws_api_gateway_rest_api.main.id
-  resource_id = aws_api_gateway_resource.ai.id
-  http_method = aws_api_gateway_method.ai_options.http_method
-  type        = "MOCK"
+  rest_api_id       = aws_api_gateway_rest_api.main.id
+  resource_id       = aws_api_gateway_resource.ai.id
+  http_method       = aws_api_gateway_method.ai_options.http_method
+  type              = "MOCK"
   request_templates = { "application/json" = "{\"statusCode\": 200}" }
 }
 resource "aws_api_gateway_method_response" "ai_options_200" {

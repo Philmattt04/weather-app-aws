@@ -8,13 +8,40 @@ locals {
 
 # ── CloudWatch log groups (14-day retention) ──────────────────────────────────
 
-resource "aws_cloudwatch_log_group" "records_list"   { name = "/aws/lambda/${var.app_name}-records-list";   retention_in_days = 14 }
-resource "aws_cloudwatch_log_group" "records_create" { name = "/aws/lambda/${var.app_name}-records-create"; retention_in_days = 14 }
-resource "aws_cloudwatch_log_group" "records_get"    { name = "/aws/lambda/${var.app_name}-records-get";    retention_in_days = 14 }
-resource "aws_cloudwatch_log_group" "records_update" { name = "/aws/lambda/${var.app_name}-records-update"; retention_in_days = 14 }
-resource "aws_cloudwatch_log_group" "records_delete" { name = "/aws/lambda/${var.app_name}-records-delete"; retention_in_days = 14 }
-resource "aws_cloudwatch_log_group" "records_export" { name = "/aws/lambda/${var.app_name}-records-export"; retention_in_days = 14 }
-resource "aws_cloudwatch_log_group" "ai_insights"    { name = "/aws/lambda/${var.app_name}-ai-insights";    retention_in_days = 14 }
+resource "aws_cloudwatch_log_group" "records_list" {
+  name              = "/aws/lambda/${var.app_name}-records-list"
+  retention_in_days = 14
+}
+
+resource "aws_cloudwatch_log_group" "records_create" {
+  name              = "/aws/lambda/${var.app_name}-records-create"
+  retention_in_days = 14
+}
+
+resource "aws_cloudwatch_log_group" "records_get" {
+  name              = "/aws/lambda/${var.app_name}-records-get"
+  retention_in_days = 14
+}
+
+resource "aws_cloudwatch_log_group" "records_update" {
+  name              = "/aws/lambda/${var.app_name}-records-update"
+  retention_in_days = 14
+}
+
+resource "aws_cloudwatch_log_group" "records_delete" {
+  name              = "/aws/lambda/${var.app_name}-records-delete"
+  retention_in_days = 14
+}
+
+resource "aws_cloudwatch_log_group" "records_export" {
+  name              = "/aws/lambda/${var.app_name}-records-export"
+  retention_in_days = 14
+}
+
+resource "aws_cloudwatch_log_group" "ai_insights" {
+  name              = "/aws/lambda/${var.app_name}-ai-insights"
+  retention_in_days = 14
+}
 
 # ── Lambda functions ──────────────────────────────────────────────────────────
 
@@ -98,7 +125,7 @@ resource "aws_lambda_function" "ai_insights" {
   handler          = "index.handler"
   filename         = data.archive_file.ai_insights.output_path
   source_code_hash = data.archive_file.ai_insights.output_base64sha256
-  timeout          = 30  # Bedrock round-trips can take up to 10s
+  timeout          = 30 # Bedrock round-trips can take up to 10s
   environment {
     variables = merge(local.common_env, {
       BEDROCK_MODEL_ID = var.bedrock_model_id
