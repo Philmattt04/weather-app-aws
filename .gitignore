@@ -1,0 +1,21 @@
+# Environment
+.env.local
+.env
+
+# Next.js
+.next/
+node_modules/
+out/
+
+# Lambda build artifacts
+lambda/*.zip
+lambda/*/node_modules/
+
+# Terraform state (commit .tfstate only if you're not using remote backend)
+terraform/.terraform/
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+terraform/.terraform.lock.hcl
+
+# OS
+.DS_Store

@@ -1,0 +1,9 @@
+{
+  "name": "records-export",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Export Lambda — requires pdfkit for PDF generation",
+  "dependencies": {
+    "pdfkit": "^0.15.0"
+  }
+}
