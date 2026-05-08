@@ -12,6 +12,7 @@ import AIInsights from './components/AIInsights';
 import AboutSection from './components/AboutSection';
 import type { WeatherData, ForecastData } from './types/weather';
 import type { WeatherRecord } from './types/records';
+import { apiUrl } from './lib/apiUrl';
 
 type SearchOpts = { q?: string; lat?: number; lon?: number };
 type Tab = 'live' | 'history';
@@ -38,7 +39,7 @@ export default function Home() {
       const locPart = opts.lat !== undefined
         ? `lat=${opts.lat}&lon=${opts.lon}`
         : `q=${encodeURIComponent(opts.q!)}`;
-      const base = `/api/weather?units=${activeUnits}`;
+      const base = apiUrl(`/weather?units=${activeUnits}`);
 
       const [wRes, fRes] = await Promise.all([
         fetch(`${base}&type=current&${locPart}`),
@@ -78,7 +79,7 @@ export default function Home() {
   const loadRecords = useCallback(async () => {
     setRecordsLoading(true);
     try {
-      const res = await fetch('/api/records');
+      const res = await fetch(apiUrl('/records'));
       if (res.ok) setRecords(await res.json());
     } finally {
       setRecordsLoading(false);

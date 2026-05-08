@@ -14,6 +14,7 @@
 'use client';
 
 import { useState } from 'react';
+import { apiUrl } from '../lib/apiUrl';
 
 const FORMATS = [
   { id: 'json', label: 'JSON',     icon: '{ }' },
@@ -33,7 +34,7 @@ export default function ExportPanel() {
     setLoading(format);
     setError(null);
     try {
-      const res = await fetch(`/api/records/export?format=${format}`);
+      const res = await fetch(apiUrl(`/records/export?format=${format}`));
       if (!res.ok) {
         const d = await res.json();
         throw new Error(d.error || 'Export failed');

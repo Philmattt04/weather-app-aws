@@ -61,3 +61,21 @@ data "archive_file" "ai_insights" {
   source_dir  = "${path.module}/../lambda/ai-insights"
   output_path = "${path.module}/../lambda/ai-insights.zip"
 }
+
+data "archive_file" "weather" {
+  type        = "zip"
+  source_dir  = "${path.module}/../lambda/weather"
+  output_path = "${path.module}/../lambda/weather.zip"
+}
+
+data "archive_file" "weather_range" {
+  type        = "zip"
+  source_dir  = "${path.module}/../lambda/weather-range"
+  output_path = "${path.module}/../lambda/weather-range.zip"
+}
+
+data "archive_file" "youtube" {
+  type        = "zip"
+  source_dir  = "${path.module}/../lambda/youtube"
+  output_path = "${path.module}/../lambda/youtube.zip"
+}

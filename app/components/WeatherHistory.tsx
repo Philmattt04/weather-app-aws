@@ -20,6 +20,7 @@
 
 import { useState } from 'react';
 import type { WeatherRecord } from '../types/records';
+import { apiUrl } from '../lib/apiUrl';
 
 interface Props {
   records: WeatherRecord[];
@@ -63,14 +64,14 @@ export default function WeatherHistory({ records, onUpdate, onDelete }: Props) {
       // which would be numerically wrong (e.g. 26.9°F displayed as 26.9°C).
       if (editUnits !== record.units) {
         const rangeRes = await fetch(
-          `/api/weather-range?lat=${record.latitude}&lon=${record.longitude}&start_date=${record.start_date}&end_date=${record.end_date}&units=${editUnits}`
+          apiUrl(`/weather-range?lat=${record.latitude}&lon=${record.longitude}&start_date=${record.start_date}&end_date=${record.end_date}&units=${editUnits}`)
         );
         const rangeData = await rangeRes.json();
         if (!rangeRes.ok) throw new Error(rangeData.error || 'Failed to convert temperature data');
         body.temperature_data = rangeData.temperature_data; // include reconverted values in the PUT
       }
 
-      const res = await fetch(`/api/records/${id}`, {
+      const res = await fetch(apiUrl(`/records/${id}`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
@@ -91,7 +92,7 @@ export default function WeatherHistory({ records, onUpdate, onDelete }: Props) {
     if (!confirm('Delete this record? This cannot be undone.')) return;
     setDeletingId(id);
     try {
-      const res = await fetch(`/api/records/${id}`, { method: 'DELETE' });
+      const res = await fetch(apiUrl(`/records/${id}`), { method: 'DELETE' });
       if (!res.ok) {
         const d = await res.json();
         throw new Error(d.error);

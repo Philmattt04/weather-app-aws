@@ -20,6 +20,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { apiUrl } from '../lib/apiUrl';
 
 interface Video {
   videoId: string;
@@ -44,7 +45,7 @@ export default function YouTubeVideos({ location }: Props) {
     setError(false);
     setVideos([]);
 
-    fetch(`/api/youtube?q=${encodeURIComponent(location)}`)
+    fetch(apiUrl(`/youtube?q=${encodeURIComponent(location)}`))
       .then((r) => r.json())
       .then((data) => {
         if (data.error) throw new Error(data.error);

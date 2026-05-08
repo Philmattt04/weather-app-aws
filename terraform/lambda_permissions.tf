@@ -61,3 +61,27 @@ resource "aws_lambda_permission" "ai_insights" {
   principal     = "apigateway.amazonaws.com"
   source_arn    = local.apigw_source_arn
 }
+
+resource "aws_lambda_permission" "weather" {
+  statement_id  = "AllowAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.weather.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = local.apigw_source_arn
+}
+
+resource "aws_lambda_permission" "weather_range" {
+  statement_id  = "AllowAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.weather_range.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = local.apigw_source_arn
+}
+
+resource "aws_lambda_permission" "youtube" {
+  statement_id  = "AllowAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.youtube.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = local.apigw_source_arn
+}

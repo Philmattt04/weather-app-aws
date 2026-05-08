@@ -23,6 +23,7 @@
 
 import { useState, FormEvent } from 'react';
 import type { WeatherRecord } from '../types/records';
+import { apiUrl } from '../lib/apiUrl';
 
 interface Props {
   onSaved: (record: WeatherRecord) => void;
@@ -62,13 +63,13 @@ export default function DateRangeForm({ onSaved }: Props) {
     try {
       // Step 1: geocode location + fetch daily temp data from Open-Meteo
       const rangeRes = await fetch(
-        `/api/weather-range?location=${encodeURIComponent(location)}&start_date=${startDate}&end_date=${endDate}&units=${units}`
+        apiUrl(`/weather-range?location=${encodeURIComponent(location)}&start_date=${startDate}&end_date=${endDate}&units=${units}`)
       );
       const rangeData = await rangeRes.json();
       if (!rangeRes.ok) throw new Error(rangeData.error || 'Failed to fetch weather data');
 
       // Step 2: persist the record in Supabase
-      const saveRes = await fetch('/api/records', {
+      const saveRes = await fetch(apiUrl('/records'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

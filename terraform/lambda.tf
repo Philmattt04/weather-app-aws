@@ -125,11 +125,76 @@ resource "aws_lambda_function" "ai_insights" {
   handler          = "index.handler"
   filename         = data.archive_file.ai_insights.output_path
   source_code_hash = data.archive_file.ai_insights.output_base64sha256
-  timeout          = 30 # Bedrock round-trips can take up to 10s
+  timeout          = 30
   environment {
     variables = merge(local.common_env, {
       BEDROCK_MODEL_ID = var.bedrock_model_id
     })
   }
   depends_on = [aws_cloudwatch_log_group.ai_insights]
+}
+
+# ── Weather, weather-range, and YouTube public proxy Lambdas ─────────────────
+
+resource "aws_cloudwatch_log_group" "weather" {
+  name              = "/aws/lambda/${var.app_name}-weather"
+  retention_in_days = 14
+}
+
+resource "aws_cloudwatch_log_group" "weather_range" {
+  name              = "/aws/lambda/${var.app_name}-weather-range"
+  retention_in_days = 14
+}
+
+resource "aws_cloudwatch_log_group" "youtube" {
+  name              = "/aws/lambda/${var.app_name}-youtube"
+  retention_in_days = 14
+}
+
+resource "aws_lambda_function" "weather" {
+  function_name    = "${var.app_name}-weather"
+  role             = aws_iam_role.lambda_exec.arn
+  runtime          = var.lambda_runtime
+  handler          = "index.handler"
+  filename         = data.archive_file.weather.output_path
+  source_code_hash = data.archive_file.weather.output_base64sha256
+  timeout          = 15
+  environment {
+    variables = {
+      OPENWEATHER_API_KEY = var.openweather_api_key
+    }
+  }
+  depends_on = [aws_cloudwatch_log_group.weather]
+}
+
+resource "aws_lambda_function" "weather_range" {
+  function_name    = "${var.app_name}-weather-range"
+  role             = aws_iam_role.lambda_exec.arn
+  runtime          = var.lambda_runtime
+  handler          = "index.handler"
+  filename         = data.archive_file.weather_range.output_path
+  source_code_hash = data.archive_file.weather_range.output_base64sha256
+  timeout          = 20
+  environment {
+    variables = {
+      OPENWEATHER_API_KEY = var.openweather_api_key
+    }
+  }
+  depends_on = [aws_cloudwatch_log_group.weather_range]
+}
+
+resource "aws_lambda_function" "youtube" {
+  function_name    = "${var.app_name}-youtube"
+  role             = aws_iam_role.lambda_exec.arn
+  runtime          = var.lambda_runtime
+  handler          = "index.handler"
+  filename         = data.archive_file.youtube.output_path
+  source_code_hash = data.archive_file.youtube.output_base64sha256
+  timeout          = 15
+  environment {
+    variables = {
+      YOUTUBE_API_KEY = var.youtube_api_key
+    }
+  }
+  depends_on = [aws_cloudwatch_log_group.youtube]
 }

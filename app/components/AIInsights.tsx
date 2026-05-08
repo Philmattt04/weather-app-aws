@@ -19,6 +19,7 @@
 import { useState, useEffect } from "react";
 import type { WeatherData } from "../types/weather";
 import type { AIInsight } from "../types/ai";
+import { apiUrl } from "../lib/apiUrl";
 
 interface Props {
   weatherData: WeatherData | null;
@@ -38,7 +39,7 @@ export default function AIInsights({ weatherData, units }: Props) {
     const windDirs = ["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"];
     const windDir = windDirs[Math.round((weatherData.wind?.deg ?? 0) / 22.5) % 16];
 
-    fetch("/api/ai-insights", {
+    fetch(apiUrl("/ai"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
