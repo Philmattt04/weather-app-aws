@@ -97,7 +97,6 @@ export default function Home() {
         <header className="text-center mb-8">
           <h1 className="text-5xl font-bold text-white tracking-tight">Weather Dashboard</h1>
           <p className="text-blue-300 mt-2 text-sm tracking-wide">by Philippe Mathieu</p>
-          <p className="text-blue-400 mt-1 text-xs">Powered by AWS Lambda · DynamoDB · Amazon Bedrock</p>
         </header>
 
         <div className="flex gap-1 bg-white/10 p-1 rounded-xl mb-6 w-fit mx-auto">

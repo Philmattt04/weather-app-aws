@@ -3,6 +3,11 @@
 resource "aws_api_gateway_rest_api" "main" {
   name        = "${var.app_name}-api"
   description = "Weather App API — routes to Lambda, backed by DynamoDB"
+
+  # Required so API Gateway base64-decodes Lambda proxy responses that set
+  # isBase64Encoded: true (e.g. the PDF export) back into real binary bytes
+  # instead of passing the base64 text straight through.
+  binary_media_types = ["application/pdf", "*/*"]
 }
 
 # ── Resources (path segments) ─────────────────────────────────────────────────
@@ -446,6 +451,7 @@ resource "aws_api_gateway_deployment" "main" {
 
   triggers = {
     redeployment = sha1(jsonencode([
+      aws_api_gateway_rest_api.main.binary_media_types,
       aws_api_gateway_integration.records_get_all,
       aws_api_gateway_integration.records_post,
       aws_api_gateway_integration.export_get,

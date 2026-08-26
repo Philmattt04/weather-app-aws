@@ -17,7 +17,13 @@ import PDFDocument from "pdfkit";
 const client = DynamoDBDocumentClient.from(new DynamoDBClient({}));
 const TABLE = process.env.DYNAMODB_TABLE;
 
-const CORS = { "Access-Control-Allow-Origin": "*" };
+// This endpoint is fronted by an edge-optimized (CloudFront) API Gateway
+// deployment. Without an explicit no-store directive, CloudFront caches
+// GET responses at the edge — including binary PDF bodies mangled by a
+// misconfigured stage — and keeps serving that stale/broken copy long
+// after the underlying bug is fixed. Exports must always reflect the
+// latest DynamoDB data, so caching must be disabled outright.
+const CORS = { "Access-Control-Allow-Origin": "*", "Cache-Control": "no-store" };
 
 // ── Format helpers ────────────────────────────────────────────────────────────
 
